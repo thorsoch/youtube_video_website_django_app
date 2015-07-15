@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}タグ検索{% endblock %}
+
+{% block body_block %}
+
+{% if tags %}
+    {% for tag in tags %}
+        <a href="{% url 'tagsearch' tag %}"><p>{{ tag }}</p></a>
+    {% endfor %}
+{% else %}
+    <p>There are no tags</p>
+{% endif %}
+
+{% endblock %}

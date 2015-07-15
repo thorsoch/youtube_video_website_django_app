@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}リクエスト{% endblock %}
+
+{% block body_block %}
+
+    Info
+
+    <div id="addCommentContainer">
+        <p>リクエスト</p>
+        {% if user.is_authenticated %}
+            <form id="addCommentForm" method="post" action="{% url 'requesto' %}">
+                {% csrf_token %}
+                <div>
+                    <textarea name="text" id="body" cols="20" rows="3"></textarea>
+
+                    <input type="submit" id="submit" value="送信" />
+                </div>
+            </form>
+        {% else %}
+            ログインしてください。
+        {% endif %}
+    </div>
+    {% if request %}
+            <div class="subtitle"><h3>リクエストを受信しました！</h3></div>
+    {% endif %}
+
+{% endblock %}

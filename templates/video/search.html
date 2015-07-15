@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load extras %}
+
+{% block title %}{{video_name}}{% endblock %}
+
+{% block body_block %}
+
+<div class="title"><h1>検索結果</h1></div>
+
+{% if query %}
+    <p>検索ワード：{{ query }}／ヒット数：　{{ hit }}</p>
+{% else %}
+    <p>全動画／ヒット数：　{{ hit }}　</p>
+{% endif %}
+
+<!--result.0 to index-->
+
+{% for res5 in result %}
+    <div class="container">
+        {% if res5 %}
+            {% for res in res5 %}
+                <div class="col-xs-2 center-block"><a href="{% url 'watchVid'  res.video_id %}"><img src="{{ res.thumb }}"></a></div>
+            {% endfor %}
+        {% else %}
+            <p>There are no videos</p>
+        {% endif %}
+    </div>
+    <div class="container">
+        {% if res5 %}
+            {% for res in res5 %}
+                <div class="col-xs-2 vidname"><a href="{% url 'watchVid'  res.video_id %}">{{ res.name }}</a></div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endfor %}
+
+
+{% endblock %}

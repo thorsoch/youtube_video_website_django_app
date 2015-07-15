@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{video.name}}{% endblock %}
+
+{% block body_block %}
+
+    <h1 class = 'videotitle'>{{ video.name }}</h1>
+
+    <iframe width="560" height="315" src="{{ video.url }}" frameborder="0" allowfullscreen></iframe>
+
+    <p>
+        お気に入り数: {{video.likes}}
+        &nbsp;
+        {% if user.is_authenticated %}
+            {% if favorite %}
+                <button>登録済みです</button>
+            {% else %}
+                <form method="post" action="{% url 'mypage'%}">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{video.video_id}}" />
+                    <button>お気に入り登録</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </p>
+
+    <div class="commentList ">
+        <h4>コメント欄</h4>
+        {% if comments %}
+            {% for comment in comments %}
+                <div><p>{{comment.text}}　＜{{ comment.name }}:{{ comment.posted }}＞</p></div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div id="addCommentContainer">
+        <p>コメントを投稿</p>
+        {% if user.is_authenticated %}
+            <form id="addCommentForm" method="post" action="{% url 'watchVid'  video.video_id %}">
+                {% csrf_token %}
+                <div>
+                    <textarea name="text" id="body" cols="20" rows="3"></textarea>
+
+                    <input type="submit" id="submit" value="送信" />
+                </div>
+            </form>
+        {% else %}
+            ログインしてください。
+        {% endif %}
+    </div>
+
+{% endblock %}
